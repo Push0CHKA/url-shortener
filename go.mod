@@ -4,6 +4,7 @@ go 1.24.5
 
 require (
 	github.com/BurntSushi/toml v1.2.1 // indirect
+	github.com/go-chi/chi/v5 v5.2.2 // indirect
 	github.com/ilyakaznacheev/cleanenv v1.5.0 // indirect
 	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/mattn/go-sqlite3 v1.14.28 // indirect
