@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"os"
 	"url-shortener/internal/config"
+	"url-shortener/internal/http-server/handlers/redirect"
+	"url-shortener/internal/http-server/handlers/url/delete"
 	"url-shortener/internal/http-server/handlers/url/save"
 	mwLogger "url-shortener/internal/http-server/middleware/logger"
 	"url-shortener/internal/lib/logger/sl"
@@ -13,6 +15,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
+
+const baseUrl = "/api/v1"
 
 const (
 	envLocal = "local"
@@ -42,7 +46,9 @@ func main() {
 	router.Use(middleware.Recoverer)
 	router.Use(middleware.URLFormat)
 
-	router.Post("/api/v1/url", save.New(log, storage))
+	router.Post(baseUrl+"/url", save.New(log, storage))
+	router.Get(baseUrl+"/{alias}", redirect.New(log, storage))
+	router.Delete(baseUrl+"/url/{alias}", delete.New(log, storage))
 
 	log.Info("starting server", slog.String("address", cfg.HTTPServer.Address))
 
